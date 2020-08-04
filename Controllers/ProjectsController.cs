@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocsOnline.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,8 @@ namespace DocsOnline.Controllers
         // GET: Projects
         public ActionResult Index()
         {
-            return View();
+           var Projects = new ProjectDetailsModel();
+            return View(Projects);
         }
     }
 }
