@@ -1,4 +1,5 @@
 ﻿using DocsOnline.Models;
+using DocsOnline.ServiceHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace DocsOnline.Controllers
         public ActionResult Index()
         {
            var Projects = new ProjectDetailsModel();
+
+            Projects.Projectlist = new SelectList(DropDownHelperService.ProjectList().Result, "ID", "Value");
             return View(Projects);
         }
     }
