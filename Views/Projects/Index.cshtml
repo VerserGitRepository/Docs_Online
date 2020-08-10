@@ -23,9 +23,9 @@
                         <td>
                             @foreach (var item in Model.FolderName)
                             {
-                                <a href="#" onclick="GetFolderFiles(@item)"><span class="glyphicon glyphicon-folder-close" />@item</a>
+                                //onclick = "GetFolderFiles(@item)
+                                <a href="@Url.Action("GetListOfFiles","Projects", new {FolderName=item })"><span class="glyphicon glyphicon-folder-close"/>@item</a>
                                 <br />
-
                             }
                         </td>
                     </tr>

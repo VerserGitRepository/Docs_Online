@@ -14,8 +14,7 @@ namespace DocsOnline.ServiceHelpers
        public static readonly string BaseUri = ConfigurationManager.AppSettings["LoginManagerBase"];
         public async static Task<LoginModel> Login(LoginModel login)
         {
-            LoginModel returnmessage = new LoginModel();
-          
+            LoginModel returnmessage = new LoginModel();          
 
             using (HttpClient client = new System.Net.Http.HttpClient())
             {

@@ -16,6 +16,7 @@ namespace DocsOnline.Controllers
 
         public ActionResult Index()
         {
+
            var Projects = new ProjectDetailsModel();
             Projects.Projectlist = new SelectList(DropDownHelperService.ProjectList().Result, "ID", "Value");           
             IEnumerable<string> dirList = Directory.EnumerateDirectories(Filepath);
@@ -23,17 +24,17 @@ namespace DocsOnline.Controllers
             {
                 DirectoryInfo d = new DirectoryInfo(dir);
 
-                //string[] files = Directory.GetFiles(_filepath);
-                //for (int i = 0; i < files.Length; i++)
-                //{
-                //    files[i] = Path.GetFileName(files[i]);
-                //}
-
-                //FilesModel dirModel = new FilesModel
-                //{
-                //    Folders = Path.GetFileName(dir),
-                //    DirAccessed = d.LastAccessTime
-                //};
+                string[] files = Directory.GetFiles(Filepath);
+                for (int i = 0; i < files.Length; i++)
+                {
+                    files[i] = Path.GetFileName(files[i]);
+                }
+                ViewBag.Files = files;
+                FilesModel dirModel = new FilesModel
+                {
+                    Folders = Path.GetFileName(dir),
+                    DirAccessed = d.LastAccessTime
+                };
 
                 // Projects.Folders.Add(d.Name.ToString());
                 Projects.FolderName.Add(  d.Name);
@@ -78,7 +79,7 @@ namespace DocsOnline.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetListOfFiles(string FolderName)
+        public void GetListOfFiles(string FolderName)
         {
             var _filepath = System.IO.Path.Combine(Filepath, FolderName);
             string[] files = Directory.GetFiles(_filepath);
@@ -87,7 +88,8 @@ namespace DocsOnline.Controllers
                 files[i] = Path.GetFileName(files[i]);
             }
             ViewBag.Files = files;
-           return new JsonResult { Data = files, JsonRequestBehavior = JsonRequestBehavior.AllowGet }; ;
+         //   return View();
+           //return new JsonResult { Data = files, JsonRequestBehavior = JsonRequestBehavior.AllowGet }; ;
         }
     }
 }
