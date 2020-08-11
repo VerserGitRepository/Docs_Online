@@ -24,7 +24,7 @@
                             @foreach (var item in Model.FolderName)
                             {
                                 //onclick = "GetFolderFiles(@item)
-                                <a href="@Url.Action("GetListOfFiles","Projects", new {FolderName=item })"><span class="glyphicon glyphicon-folder-close"/>@item</a>
+                                <a href="#" onclick="GetFolderFiles('@item');"><span class="glyphicon glyphicon-folder-close" />@item</a>
                                 <br />
                             }
                         </td>
@@ -32,7 +32,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-md-6 pull-left" style="border:solid; font-size:16px; border-color:lightgray">
+        <div class="col-md-6 pull-left" style="border:solid; font-size:16px; border-color:lightgray" id="content">
 
             @{
 
@@ -123,10 +123,15 @@
             type: "GET",
             data: { "FolderName": FolderName },
             beforeSend: function () {
-                alert("testing");
+              //  alert("testing");
             },
             success: function (result) {
-                $("#content").html(result);
+                $("#content").empty();
+                //$("#content").html(result);
+                $.each(result, function (index, value) {
+                    $("#content").append('<a href=/Projects/DownloadFile?fileName='+value+'>'+value+'</a>'+'<br>');
+              //  $('a').trigger('click');
+                })
             },
             error: function (resp) {
                 alert(resp);

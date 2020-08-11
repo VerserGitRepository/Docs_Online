@@ -79,7 +79,7 @@ namespace DocsOnline.Controllers
         }
 
         [HttpGet]
-        public void GetListOfFiles(string FolderName)
+        public ActionResult GetListOfFiles(string FolderName)
         {
             var _filepath = System.IO.Path.Combine(Filepath, FolderName);
             string[] files = Directory.GetFiles(_filepath);
@@ -89,7 +89,7 @@ namespace DocsOnline.Controllers
             }
             ViewBag.Files = files;
          //   return View();
-           //return new JsonResult { Data = files, JsonRequestBehavior = JsonRequestBehavior.AllowGet }; ;
+           return new JsonResult { Data = files, JsonRequestBehavior = JsonRequestBehavior.AllowGet }; ;
         }
     }
 }
