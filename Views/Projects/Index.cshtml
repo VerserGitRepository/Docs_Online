@@ -118,6 +118,8 @@
     $('#tree2').treed({ openedClass: 'glyphicon-folder-open', closedClass: 'glyphicon-folder-close' });
 
     function GetFolderFiles(FolderName) {
+      //  alert(FolderName);
+        var trimspace = "";
         $.ajax({
             url: "./GetListOfFiles",
             type: "GET",
@@ -129,7 +131,9 @@
                 $("#content").empty();
                 //$("#content").html(result);
                 $.each(result, function (index, value) {
-                    $("#content").append('<a href=/Projects/DownloadFile?fileName='+value+'>'+value+'</a>'+'<br>');
+                    trimspace = value.replace(" ", "%20");
+                    alert(trimspace);
+                    $("#content").append('<a href=/Projects/DownloadFile?fileName=' + FolderName + '\\' + trimspace+'>'+value+'</a>'+'<br>');
               //  $('a').trigger('click');
                 })
             },
