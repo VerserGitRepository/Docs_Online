@@ -1,5 +1,13 @@
 ﻿@model  DocsOnline.Models.ProjectDetailsModel
-
+<script src="~/Scripts/jquery-3.4.1.min.js" type="text/javascript"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.4.1.min.js" type="text/javascript"></script>
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src=" https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <div class="container" style="margin-top:30px;">
 
     @Html.DropDownListFor(model => model.ProjectID, Model.Projectlist, "PROJECT", new { @class = "form-control project", @id = "ddlProjectId" })
@@ -53,129 +61,27 @@
                 <tbody>
 
 
-                    @{
-
-                        ViewBag.Title = "Download Files";
-                        var Files = (ViewBag.Files as string[]);
-
-                        if (Files != null && Files.Any())
-                        {
-                            foreach (var file in Files)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.ActionLink(file, "DownloadFile", new { fileName = file })
-                                    </td>
-                                    <td>
-                                        Size
-                                    </td>
-                                    <td>
-                                        File Type
-                                    </td>
-                                    <td>@DateTime.Now</td>
-                                </tr>
-
-
-                            }
-                        }
-                        else
-                        {
-                            <label>No File(s) to Download</label>
-                        }
-                    }
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
 </div>
-
-@*@section Scripts  {
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.semanticui.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-}
-@section Styles {
-    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
-}*@
 <script>
 
     $(document).ready(function () {
         $('#FolderTable').DataTable();
-    });
-    $(document).ready(function () {
         $('#FilesTable').DataTable();
     });
+    
 
-    //$(document).ready(function () {
-    //    $('#FolderTable').dataTable({
-    //        responsive: true,
-    //        stateSave: true
-    //    });
-    //    $('.dataTables_filter').addClass('pull-right');
-    //});
-
-
-
-    //$.fn.extend({
-    //    treed: function (o) {
-
-    //        var openedClass = 'glyphicon-minus-sign';
-    //        var closedClass = 'glyphicon-plus-sign';
-
-    //        if (typeof o != 'undefined') {
-    //            if (typeof o.openedClass != 'undefined') {
-    //                openedClass = o.openedClass;
-    //            }
-    //            if (typeof o.closedClass != 'undefined') {
-    //                closedClass = o.closedClass;
-    //            }
-    //        };
-
-    //        //initialize each of the top levels
-    //        var tree = $(this);
-    //        tree.addClass("tree");
-    //        tree.find('li').has("ul").each(function () {
-    //            var branch = $(this); //li with children ul
-    //            branch.prepend("<i class='indicator glyphicon " + closedClass + "'></i>");
-    //            branch.addClass('branch');
-    //            branch.on('click', function (e) {
-    //                if (this == e.target) {
-    //                    var icon = $(this).children('i:first');
-    //                    icon.toggleClass(openedClass + " " + closedClass);
-    //                    $(this).children().children().toggle();
-    //                }
-    //            })
-    //            branch.children().children().toggle();
-    //        });
-    //        //fire event from the dynamically added icon
-    //        tree.find('.branch .indicator').each(function () {
-    //            $(this).on('click', function () {
-    //                $(this).closest('li').click();
-    //            });
-    //        });
-    //        //fire event to open branch if the li contains an anchor instead of text
-    //        tree.find('.branch>a').each(function () {
-    //            $(this).on('click', function (e) {
-    //                $(this).closest('li').click();
-    //                e.preventDefault();
-    //            });
-    //        });
-    //        //fire event to open branch if the li contains a button instead of text
-    //        tree.find('.branch>button').each(function () {
-    //            $(this).on('click', function (e) {
-    //                $(this).closest('li').click();
-    //                e.preventDefault();
-    //            });
-    //        });
-    //    }
-    //});
-
-    //$('#tree2').treed({ openedClass: 'glyphicon-folder-open', closedClass: 'glyphicon-folder-close' });
+  
 
     function GetFolderFiles(FolderName) {
         //  alert(FolderName);
@@ -188,19 +94,47 @@
                 //  alert("testing");
             },
             success: function (result) {
-                $("#content").empty();
+               
                 //$("#content").html(result);
-                $.each(result, function (index, value) {
-                    trimspace = value.replace(" ", "%20");
-                    alert(trimspace);
-                    $("#content").append('<a href=/Projects/DownloadFile?fileName=' + FolderName + '\\' + trimspace + '>' + value + '</a>' + '<br>');
+                populateDataTable(result,FolderName);
+                //$.each(result, function (index, value) {
+                //    trimspace = value.replace(/ /g, "%20");
+                //    // alert(trimspace);
+                //    $("#content").append('<a href=/Projects/DownloadFile?fileName=' + FolderName + '\\' + trimspace + '>' + value + '</a>' + '<br>');
                     //  $('a').trigger('click');
-                })
+                //})
             },
             error: function (resp) {
                 alert(resp);
             }
         });
+    }
+    function populateDataTable(data, FolderName) {
+        console.log("populating data table...");
+        // clear the table before populating it with more data
+        $("#FilesTable").DataTable().clear();
+        var length = Object.keys(data).length;
+        if (length == 0) {
+            $('#FilesTable').dataTable().fnAddData(["", "", "", ""]);
+        }
+        else {
+            for (var i = 0; i < length; i++) {
+                var quote = data[i];
+                trimspace = quote.FileName.replace(/ /g, "%20");
+                // You could also use an ajax property on the data table initialization
+
+                console.log(trimspace);
+
+                $('#FilesTable').dataTable().fnAddData([
+                    '<a href=/Projects/DownloadFile?fileName=' + FolderName + '\\' + trimspace + '>' + quote.FileName + '</a>' + '<br>',
+                    quote.FileDate,
+                    quote.FileType,
+                  
+                    quote.FileSize
+                   
+                ]);
+            }
+        }
     }
 
 </script>

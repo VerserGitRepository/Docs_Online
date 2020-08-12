@@ -32,8 +32,9 @@ namespace DocsOnline.Controllers
                 ViewBag.Files = files;
                 FilesModel dirModel = new FilesModel
                 {
-                    Folders = Path.GetFileName(dir),
-                    DirAccessed = d.LastAccessTime
+                    FileName = Path.GetFileName(dir),
+                    FileDate = d.LastAccessTime,
+                    //FileSize = d.
                 };
 
                 // Projects.Folders.Add(d.Name.ToString());
@@ -82,14 +83,23 @@ namespace DocsOnline.Controllers
         public ActionResult GetListOfFiles(string FolderName)
         {
             var _filepath = System.IO.Path.Combine(Filepath, FolderName);
-            string[] files = Directory.GetFiles(_filepath);
-            for (int i = 0; i < files.Length; i++)
+            DirectoryInfo d = new DirectoryInfo(_filepath);
+            List<FilesModel> files = new List<FilesModel>();
+            foreach (FileInfo info in d.GetFiles())
             {
-                files[i] = Path.GetFileName(files[i]);
-            }
-            ViewBag.Files = files;
-         //   return View();
-           return new JsonResult { Data = files, JsonRequestBehavior = JsonRequestBehavior.AllowGet }; ;
+                FilesModel fileModel = new FilesModel
+                {
+                    FileName = info.Name,
+                    FileDate = info.LastWriteTime,
+                    FileSize =  Convert.ToInt32(info.Length),
+                    FileType = info.Extension
+                //FileSize = d.
+            };
+                files.Add(fileModel);
+        }
+
+            //   return View();
+            return new JsonResult { Data = files, JsonRequestBehavior = JsonRequestBehavior.AllowGet }; ;
         }
     }
 }
