@@ -16,32 +16,36 @@ namespace DocsOnline.Controllers
 
         public ActionResult Index()
         {
-
-           var Projects = new ProjectDetailsModel();
-            Projects.Projectlist = new SelectList(DropDownHelperService.ProjectList().Result, "ID", "Value");           
-            IEnumerable<string> dirList = Directory.EnumerateDirectories(Filepath);
-            foreach (string dir in dirList)
+            if (!UserRoles.UserEditCompleteBookings())
             {
-                DirectoryInfo d = new DirectoryInfo(dir);
-
-                string[] files = Directory.GetFiles(Filepath);
-                for (int i = 0; i < files.Length; i++)
-                {
-                    files[i] = Path.GetFileName(files[i]);
-                }
-                ViewBag.Files = files;
-                FilesModel dirModel = new FilesModel
-                {
-                    FileName = Path.GetFileName(dir),
-                    FileDate = d.LastAccessTime,
-                    //FileSize = d.
-                };
-
-                // Projects.Folders.Add(d.Name.ToString());
-                Projects.FolderName.Add(  d.Name);
-                Projects.FolderDate.Add(d.LastWriteTime.Date);
-
+                return RedirectToAction("Login", "Login");
             }
+                var Projects = new ProjectDetailsModel();
+                Projects.Projectlist = new SelectList(DropDownHelperService.ProjectList().Result, "ID", "Value");
+                IEnumerable<string> dirList = Directory.EnumerateDirectories(Filepath);
+                foreach (string dir in dirList)
+                {
+                    DirectoryInfo d = new DirectoryInfo(dir);
+
+                    string[] files = Directory.GetFiles(Filepath);
+                    for (int i = 0; i < files.Length; i++)
+                    {
+                        files[i] = Path.GetFileName(files[i]);
+                    }
+                    ViewBag.Files = files;
+                    FilesModel dirModel = new FilesModel
+                    {
+                        FileName = Path.GetFileName(dir),
+                        FileDate = d.LastAccessTime,
+                        //FileSize = d.
+                    };
+
+                    // Projects.Folders.Add(d.Name.ToString());
+                    Projects.FolderName.Add(d.Name);
+                    Projects.FolderDate.Add(d.LastWriteTime.Date);
+
+                }
+            
             return View(Projects);
         }
 
@@ -75,6 +79,8 @@ namespace DocsOnline.Controllers
 
         public FileResult DownloadFile(string fileName)
         {
+           
+
             var filepath = System.IO.Path.Combine(Filepath, fileName);
             return File(filepath, MimeMapping.GetMimeMapping(filepath), fileName);
         }

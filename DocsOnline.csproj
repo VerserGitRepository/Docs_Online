@@ -160,6 +160,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ExplorerModel.cs" />
     <Compile Include="Models\FilesModel.cs" />
     <Compile Include="Models\FolderModel.cs" />
     <Compile Include="Models\ListItems.cs" />

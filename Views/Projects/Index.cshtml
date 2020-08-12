@@ -16,30 +16,28 @@
         @*@Html.HiddenFor(model => model.FilePath)*@
     </div>
 
-    <br>
-    <div class="row ">
-        <div class="col-md-4">
-            <table id="FolderTable" class="table pull-left" style="margin-right:0px;border:solid; width:90%; font-size:16px; border-width:thin; border-color:lightgray">
+ 
+    <div class="row">
+        <div class="col-md-4 pull-left">
+            <table id="FolderTable" class="table pull-left" data-page-length="15" style="margin-right:0px;border:solid;  font-size:16px; border-width:thin; border-color:lightgray">
                 <thead>
                     <tr>
                         <th>Foders</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            @foreach (var item in Model.FolderName)
-                            {
-                                //onclick = "GetFolderFiles(@item)
+                    @foreach (var item in Model.FolderName)
+                    {
+                        <tr>
+                            <td>
                                 <a href="#" onclick="GetFolderFiles('@item');"><span class="glyphicon glyphicon-folder-close" />@item</a>
-                                <br />
-                            }
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
-        <div class="col-md-6 pull-left" style="border:solid; font-size:16px; border-color:lightgray" id="content">
+        <div class="col-md-8 pull-left" style="border:solid; font-size:16px; border-color:lightgray" id="content">
 
             <table class="table pull-left" id="FilesTable">
                 <thead>
@@ -70,19 +68,24 @@
                 </tbody>
             </table>
         </div>
+
+
+        <div id="jstree_demo"></div>
     </div>
 
 </div>
+
 <script>
 
     $(document).ready(function () {
-        $('#FolderTable').DataTable();
+        $('#FolderTable').DataTable({
+            responsive: true,           
+            stateSave: true,
+            "info": false,
+        });
         $('#FilesTable').DataTable();
     });
-    
-
-  
-
+    $.fn.DataTable.ext.pager.numbers_length = 0;
     function GetFolderFiles(FolderName) {
         //  alert(FolderName);
         var trimspace = "";
@@ -137,4 +140,42 @@
         }
     }
 
+    $('#jstree_demo').jstree({
+        "core": {
+            "animation": 0,
+            "check_callback": true,
+            "themes": { "stripes": true },
+            'data': {
+                'url': function (node) {
+                    return node.id === '#' ?
+                        'ajax_demo_roots.json' : 'ajax_demo_children.json';
+                },
+                'data': function (node) {
+                    return { 'id': node.id };
+                }
+            }
+        },
+        "types": {
+            "#": {
+                "max_children": 1,
+                "max_depth": 4,
+                "valid_children": ["root"]
+            },
+            "root": {
+                "icon": "/static/3.3.10/assets/images/tree_icon.png",
+                "valid_children": ["default"]
+            },
+            "default": {
+                "valid_children": ["default", "file"]
+            },
+            "file": {
+                "icon": "glyphicon glyphicon-file",
+                "valid_children": []
+            }
+        },
+        "plugins": [
+            "contextmenu", "dnd", "search",
+            "state", "types", "wholerow"
+        ]
+    });
 </script>
