@@ -40,7 +40,7 @@
 
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
-           
+
             <div class="navbar-header">
                 <img class="navbar-header" src="~/Images/VerserLogo.png" style=" height:50px; width:90px;" />
                 <a class="navbar-brand" style="padding-left:50px;color:white" href="#">Verser Technology LifeCycles</a>
@@ -54,12 +54,22 @@
                     <li style="padding-left:50px"> @Html.ActionLink("Docs Online", "Index", "Projects", new { area = "" }, new { @class = "navbar-brand" })</li>
 
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li style="float:right">@Html.ActionLink("LOGOUT", "Logout", "Login")</li>
+                    @*<li style="float:right">@Html.ActionLink("LOGOUT", "Logout", "Login")</li>*@
                 }
                 else
                 {
                     <li class="nav navbar-nav" style="float:right">@Html.ActionLink("Login", "Login", "Login")</li>
 
+                }
+            </ul>
+            <ul class="nav navbar-nav" style="float:right">
+                @if (Session["FullUserName"] != null)
+                {
+                    <li style="font-size:small;color:white;font-weight:100;float:right">@Html.ActionLink("Logout", "Login", "Login")</li>
+                }
+                else
+                {
+                    <li style="font-size:small;color:white;font-weight:100;float:right">@Html.ActionLink("LOGOUT", "Login", "Login")</li>
                 }
             </ul>
 

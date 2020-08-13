@@ -8,21 +8,25 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<div class="container" style="margin-top:30px;">
 
-    @Html.DropDownListFor(model => model.ProjectID, Model.Projectlist, "PROJECT", new { @class = "form-control project", @id = "ddlProjectId" })
-    <div class="pull-right">
+<div class="container" style="margin-top:30px;">
+    <div class="col-md-6">
+        @Html.DropDownListFor(model => model.ProjectID, Model.Projectlist, "PROJECT", new { @class = "form-control project", @id = "ddlProjectId" })
+    </div>
+    <div class="col-md-6">
         @Html.Label("Upload a File", htmlAttributes: new { @class = "control-label col-md-4" })<input type="file" name="UploadResumeFile" id="ResumeFile" />
         @*@Html.HiddenFor(model => model.FilePath)*@
     </div>
+</div>
+<div class="container" style="margin-top:30px;width:170%;">
 
- 
+
     <div class="row">
         <div class="col-md-4 pull-left">
             <table id="FolderTable" class="table pull-left" data-page-length="15" style="margin-right:0px;border:solid;  font-size:16px; border-width:thin; border-color:lightgray">
-                <thead>
+                <thead style="background-color: #428bca; color:white">
                     <tr>
-                        <th>Foders</th>
+                        <th>Folders</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,10 +41,10 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-md-8 pull-left" style="border:solid; font-size:16px; border-color:lightgray" id="content">
+        <div class="col-md-7 pull-left" style="border:solid; font-size:16px; border-color:lightgray" id="content">
 
             <table class="table pull-left" id="FilesTable">
-                <thead>
+                <thead style="background-color: #428bca; color:white">
                     <tr>
                         <th>
                             FileName
@@ -79,7 +83,7 @@
 
     $(document).ready(function () {
         $('#FolderTable').DataTable({
-            responsive: true,           
+            responsive: true,
             stateSave: true,
             "info": false,
         });
@@ -97,14 +101,14 @@
                 //  alert("testing");
             },
             success: function (result) {
-               
+
                 //$("#content").html(result);
-                populateDataTable(result,FolderName);
+                populateDataTable(result, FolderName);
                 //$.each(result, function (index, value) {
                 //    trimspace = value.replace(/ /g, "%20");
                 //    // alert(trimspace);
                 //    $("#content").append('<a href=/Projects/DownloadFile?fileName=' + FolderName + '\\' + trimspace + '>' + value + '</a>' + '<br>');
-                    //  $('a').trigger('click');
+                //  $('a').trigger('click');
                 //})
             },
             error: function (resp) {
@@ -132,9 +136,9 @@
                     '<a href=/Projects/DownloadFile?fileName=' + FolderName + '\\' + trimspace + '>' + quote.FileName + '</a>' + '<br>',
                     quote.FileDate,
                     quote.FileType,
-                  
+
                     quote.FileSize
-                   
+
                 ]);
             }
         }
@@ -179,3 +183,11 @@
         ]
     });
 </script>
+<style>
+    .container {
+        padding-right: 15px;
+        padding-left: 5px;
+        margin-right: auto;
+        margin-left: 20px;
+    }
+</style>
