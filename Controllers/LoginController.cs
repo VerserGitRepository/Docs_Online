@@ -14,12 +14,19 @@ namespace DocsOnline.Controllers
         // GET: Login
         public ActionResult Index()
         {
+           
             return View();
         }
 
         [HttpGet]
         public ActionResult Login()
         {
+            Session["Username"] = null;
+            Session["FullName"] = null;
+            Session["ErrorMessage"] = null;
+            Session.Clear();
+            Session.RemoveAll();
+            Session.Abandon();
             return View();
         }
         [HttpPost]
@@ -41,7 +48,7 @@ namespace DocsOnline.Controllers
                 Session["FullName"] = userReturn.Result.FullName;
                 Session["ErrorMessage"] = null;
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Projects");
             }
             else
             {
@@ -53,6 +60,9 @@ namespace DocsOnline.Controllers
         }
         public ActionResult Logout(LoginModel login)
         {
+            Session["Username"] = null;
+            Session["FullName"] = null;
+            Session["ErrorMessage"] = null;
             Session.Clear();
             Session.RemoveAll();
             Session.Abandon();
