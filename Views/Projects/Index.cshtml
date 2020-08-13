@@ -33,8 +33,8 @@
                     @foreach (var item in Model.FolderName)
                     {
                         <tr>
-                            <td>
-                                <a href="#" onclick="GetFolderFiles('@item');"><span class="glyphicon glyphicon-folder-close" />@item</a>
+                            <td >
+                                <a style="font-size:16px" href="#" onclick="GetFolderFiles('@item');"><span class="glyphicon glyphicon-folder-close" style="padding-right:5px;"/>&nbsp; @item</a>
                             </td>
                         </tr>
                     }
