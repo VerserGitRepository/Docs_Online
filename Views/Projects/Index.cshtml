@@ -86,9 +86,12 @@
             responsive: true,
             stateSave: true,
             "info": false,
+            pagingType: "simple",
+           
         });
         $('#FilesTable').DataTable();
     });
+   
     $.fn.DataTable.ext.pager.numbers_length = 0;
     function GetFolderFiles(FolderName) {
         //  alert(FolderName);
@@ -190,4 +193,6 @@
         margin-right: auto;
         margin-left: 20px;
     }
+
+    .dataTables_paginate{float:left;text-align:right;padding-top:0.25em}
 </style>
