@@ -17,19 +17,19 @@
                 <a class="navbar-brand" style="padding-left:50px;color:white" href="#">Verser Technology LifeCycles</a>
             </div>
             <ul class="nav navbar-nav">
-                
+
                 @if (@Session["Username"] != null)
                 {
                     <li style="padding-left:50px"> @Html.ActionLink("Docs Online", "Index", "Projects", new { area = "" }, new { @class = "navbar-brand" })</li>
 
                     @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
                 }
-                
+
             </ul>
             <ul class="nav navbar-nav" style="float:right">
                 @if (@Session["Username"] != null)
                 {
-                <li style="color:orange; font-size:small;color:white;font-weight:100;float:right">@Html.ActionLink("Logout", "Login", "Login")</li>
+                    <li style="color:orange; font-size:small;color:white;font-weight:100;float:right">@Html.ActionLink("Logout", "Login", "Login")</li>
                 }
                 else
                 {
@@ -41,20 +41,21 @@
     </nav>
     <div class="container body-content">
         @RenderBody()
-        <hr />
+        <hr width="140%" />
         <footer>
             <p>&copy; @DateTime.Now.Year - Verser Technology Lifecycles</p>
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/bootstrap")
+
     @RenderSection("scripts", required: false)
+    <style>
+        .navbar {
+            background-color: lightgray;
+            border-color: orange;
+        }
+    </style>
 </body>
 </html>
 
-<style>
-    .navbar {
-        background-color:lightgray;
-        border-color:orange;
-    }
-</style>
