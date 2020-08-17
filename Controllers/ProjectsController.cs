@@ -30,18 +30,18 @@ namespace DocsOnline.Controllers
             {
                 DirectoryInfo d = new DirectoryInfo(dir);
 
-                string[] files = Directory.GetFiles(Filepath);
-                for (int i = 0; i < files.Length; i++)
-                {
-                    files[i] = Path.GetFileName(files[i]);
-                }
-                ViewBag.Files = files;
-                FilesModel dirModel = new FilesModel
-                {
-                    FileName = Path.GetFileName(dir),
-                    FileDate = d.LastAccessTime,
-                    //FileSize = d.
-                };
+                //string[] files = Directory.GetFiles(Filepath);
+                //for (int i = 0; i < files.Length; i++)
+                //{
+                //    files[i] = Path.GetFileName(files[i]);
+                //}
+                //ViewBag.Files = files;
+                //FilesModel dirModel = new FilesModel
+                //{
+                //    FileName = Path.GetFileName(dir),
+                //    FileDate = d.LastAccessTime,
+                //    //FileSize = d.
+                //};
 
                 // Projects.Folders.Add(d.Name.ToString());
                 Projects.FolderName.Add(d.Name);
@@ -49,6 +49,21 @@ namespace DocsOnline.Controllers
 
             }
 
+            //getfiles get = new getfiles();
+            List<string> files = GetAllFiles(Filepath);
+
+            var filesList= new List<FileModel>();
+            foreach (string f in files)
+            {
+                var _files = new FileModel
+                {
+                    FileName = f
+                   // FileDate = f.LastAccessTime,
+                   //FileSize = d.
+                };
+                filesList.Add(_files);
+            }
+            Projects.Files= filesList;
             return View(Projects);
         }
         private void ConstructTree(DirectoryInfo[] dirList,int id,int pId,bool isParent,TreeViewModel parent,string FilePathRoot)
@@ -137,8 +152,6 @@ namespace DocsOnline.Controllers
 
         public FileResult DownloadFile(string fileName)
         {
-           
-
             var filepath = System.IO.Path.Combine(Filepath, fileName);
             return File(filepath, MimeMapping.GetMimeMapping(filepath), fileName);
         }
@@ -164,6 +177,27 @@ namespace DocsOnline.Controllers
         }
             ConstructTree(null, 1, 0, true,null,_filepath);
             return new JsonResult { Data = node, JsonRequestBehavior = JsonRequestBehavior.AllowGet }; ;
+        }
+
+        public List<string> GetAllFiles(string sDirt)
+        {
+            List<string> files = new List<string>();
+            try
+            {
+                foreach (string file in Directory.GetFiles(sDirt))
+                {
+                    files.Add(file);
+                }
+                foreach (string fl in Directory.GetDirectories(sDirt))
+                {
+                    files.AddRange(GetAllFiles(fl));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return files;
         }
     }
 }

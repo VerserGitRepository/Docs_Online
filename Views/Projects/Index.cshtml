@@ -36,7 +36,7 @@
                     {
                         <tr>
                             <td>
-                                <a href="#" onclick="GetFolderFiles('@item');"><span class="glyphicon glyphicon-folder-close" style="padding-right:5px;" />&nbsp; @item</a>
+                                <a href="#" onclick="GetFolderFiles('@item');">@*<span class="glyphicon glyphicon-folder-close" style="padding-right:5px;" />*@ <img src="~/Images/Folder.png" style="height:20px;width:20px;"/> &nbsp; @item</a>
                                 <ul id="@item" class="ztree">
                             </td>
                         </tr>
@@ -64,22 +64,20 @@
                     </tr>
                 </thead>
                 <tbody>
-
-
+                    @foreach (var item in Model.Files)
+                    {
                     <tr>
-                        <td>1</td>
+                        <td>@item.FileName</td>
                         <td>2</td>
                         <td>3</td>
                         <td>4</td>
                     </tr>
+                    }
                 </tbody>
             </table>
         </div>
-
-
         <div id="jstree_demo"></div>
     </div>
-
 </div>
 
 <script>

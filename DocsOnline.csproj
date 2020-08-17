@@ -183,6 +183,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\CompanyLogo.jpg" />
+    <Content Include="Images\Folder.png" />
     <Content Include="Images\line_conn.gif" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\VerserLogo.png" />
