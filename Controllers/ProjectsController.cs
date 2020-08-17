@@ -77,11 +77,9 @@ namespace DocsOnline.Controllers
             node.children = new List<TreeViewModel>();
             foreach (var subFolder in folder.GetDirectories())
             {
-                TreeViewModel child = GetNode(subFolder, node,FilePathRoot);
-               
+                TreeViewModel child = GetNode(subFolder, node,FilePathRoot);               
                 node.children.Add(child);
             }
-
         }
 
         private TreeViewModel GetNode(DirectoryInfo folder, TreeViewModel parent,string FilepathRoot)
