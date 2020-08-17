@@ -163,6 +163,7 @@
     <Compile Include="Models\ExplorerModel.cs" />
     <Compile Include="Models\FilesModel.cs" />
     <Compile Include="Models\FolderModel.cs" />
+    <Compile Include="Models\FoldersModel.cs" />
     <Compile Include="Models\ListItems.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ProjectDetailsModel.cs" />

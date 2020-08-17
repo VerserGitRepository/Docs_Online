@@ -42,28 +42,37 @@ namespace DocsOnline.Controllers
                 //    FileDate = d.LastAccessTime,
                 //    //FileSize = d.
                 //};
-
                 // Projects.Folders.Add(d.Name.ToString());
+
+                var _folders = new FoldersModel
+                {
+                    FolderName = d.Name,
+                    FolderDirectory = d.FullName,
+                    FolderDate = d.LastWriteTime.Date
+                    // FileDate = f.LastAccessTime,
+                    //FileSize = d.
+                };
+                Projects.FoldersList.Add(_folders);
                 Projects.FolderName.Add(d.Name);
                 Projects.FolderDate.Add(d.LastWriteTime.Date);
 
             }
 
             //getfiles get = new getfiles();
-            List<string> files = GetAllFiles(Filepath);
+            //List<string> files = GetAllFiles(Filepath);
 
-            var filesList= new List<FileModel>();
-            foreach (string f in files)
-            {
-                var _files = new FileModel
-                {
-                    FileName = f
-                   // FileDate = f.LastAccessTime,
-                   //FileSize = d.
-                };
-                filesList.Add(_files);
-            }
-            Projects.Files= filesList;
+            //var filesList= new List<FileModel>();
+            //foreach (string f in files)
+            //{
+            //    var _files = new FileModel
+            //    {
+            //        FileName = f
+            //       // FileDate = f.LastAccessTime,
+            //       //FileSize = d.
+            //    };
+            //    filesList.Add(_files);
+            //}
+            //Projects.Files= filesList;
             return View(Projects);
         }
         private void ConstructTree(DirectoryInfo[] dirList,int id,int pId,bool isParent,TreeViewModel parent,string FilePathRoot)

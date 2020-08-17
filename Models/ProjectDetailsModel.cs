@@ -13,6 +13,7 @@ namespace DocsOnline.Models
             FolderName = new List<string>();
             FolderDate = new List<DateTime>();
             Files = new List<FileModel>();
+            FoldersList = new List<FoldersModel>();
         }
         public SelectList Projectlist { get; set; }     
         public int? ProjectID { get; set; }
@@ -21,5 +22,8 @@ namespace DocsOnline.Models
         public List<string> FolderName { get; set; }
         public List<FileModel> Files { get; set; }        
         public List<DateTime> FolderDate { get; set; }
+        public List<FoldersModel> FoldersList { get; set; }
+
+        
     }
 }

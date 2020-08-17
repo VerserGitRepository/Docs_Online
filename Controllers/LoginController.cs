@@ -13,8 +13,7 @@ namespace DocsOnline.Controllers
     {
         // GET: Login
         public ActionResult Index()
-        {
-           
+        {           
             return View();
         }
 
@@ -47,7 +46,6 @@ namespace DocsOnline.Controllers
                 Session["Username"] = login.UserName;
                 Session["FullName"] = userReturn.Result.FullName;
                 Session["ErrorMessage"] = null;
-
                 return RedirectToAction("Index", "Projects");
             }
             else

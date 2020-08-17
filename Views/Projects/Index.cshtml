@@ -32,12 +32,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.FolderName)
+                    @foreach (var item in Model.FoldersList)
                     {
                         <tr>
                             <td>
-                                <a href="#" onclick="GetFolderFiles('@item');">@*<span class="glyphicon glyphicon-folder-close" style="padding-right:5px;" />*@ <img src="~/Images/Folder.png" style="height:20px;width:20px;"/> &nbsp; @item</a>
-                                <ul id="@item" class="ztree">
+                                <a href="#" onclick="GetFolderFiles('@item.FolderName');">@*<span class="glyphicon glyphicon-folder-close" style="padding-right:5px;" />*@ 
+                                <img src="~/Images/Folder.png" style="height:20px;width:20px;"/> &nbsp; @item.FolderName</a>
+                                <ul id="@item.FolderDirectory" class="ztree">
                             </td>
                         </tr>
                     }
@@ -63,16 +64,13 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var item in Model.Files)
-                    {
+                <tbody>                
                     <tr>
-                        <td>@item.FileName</td>
+                        <td>1</td>
                         <td>2</td>
                         <td>3</td>
                         <td>4</td>
-                    </tr>
-                    }
+                    </tr>                 
                 </tbody>
             </table>
         </div>
