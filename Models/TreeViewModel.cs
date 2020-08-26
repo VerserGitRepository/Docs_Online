@@ -13,7 +13,7 @@ namespace DocsOnline.Models
         }
         public string name { get; set; }
         public bool open { get; set; }
-        public bool isParent { get; set; }
+        public bool isParent = true;
 
         public List<TreeViewModel> children { get; set; }
 
