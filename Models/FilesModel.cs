@@ -14,5 +14,6 @@ namespace DocsOnline.Models
         public DateTime FileDate { get; set; }
         public string FileType { get; set; }
         public int FileSize { get; set; }
+        public string FileFullPath { get; set; }
     }
 }

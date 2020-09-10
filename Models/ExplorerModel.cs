@@ -31,5 +31,6 @@ namespace DocsOnline.Models
         public string FileName { get; set; }
         public string FileSizeText { get; set; }
         public DateTime FileAccessed { get; set; }
+        public string FileType { get; set; }
     }
 }

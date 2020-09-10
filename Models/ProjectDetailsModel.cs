@@ -12,7 +12,7 @@ namespace DocsOnline.Models
         {
             FolderName = new List<string>();
             FolderDate = new List<DateTime>();
-            Files = new List<FileModel>();
+            Files = new List<FilesModel>();
             FoldersList = new List<FoldersModel>();
         }
         public SelectList Projectlist { get; set; }     
@@ -20,7 +20,7 @@ namespace DocsOnline.Models
         public string ProjectName { get; set; }
         public List<FolderModel> Folders { get; set; }
         public List<string> FolderName { get; set; }
-        public List<FileModel> Files { get; set; }        
+        public List<FilesModel> Files { get; set; }        
         public List<DateTime> FolderDate { get; set; }
         public List<FoldersModel> FoldersList { get; set; }
 

@@ -37,12 +37,11 @@
                     {
                         <tr>
                             <td>
-                                <p><input type="checkbox" name="check-1" value="1" class="lcs_check" autocomplete="off" /></p>
-                                <input type="hidden" value="@item.FolderName" id="hdnFolder" />
-                                    @*<span class="glyphicon glyphicon-folder-close" style="padding-right:5px;" />&nbsp; @item</a>*@
-                                 
-                                
-                                <ul id="@item.FolderName" class="ztree" />
+                                @*<p><input type="checkbox" name="check-1" value="1" class="lcs_check" autocomplete="off" /></p>
+                                    <input type="hidden" value="@item.FolderName" id="hdnFolder" />
+                                    <span class="glyphicon glyphicon-folder-close" style="padding-right:5px;" />&nbsp; @item</a>
+                                    <ul id="@item.FolderName" class="ztree" onclick="LoadFolderFiles('@item.FolderDirectory/')" />*@
+                                <a onclick="LoadFolderFiles('@item.FolderDirectory')"><span class="glyphicon glyphicon-folder-close" style="padding-right:5px;" />&nbsp; @item.FolderName</a>
                             </td>
                         </tr>
                     }
@@ -64,17 +63,22 @@
                             FileType
                         </th>
                         <th>
-                            File Date
+                            FileDate
                         </th>
                     </tr>
                 </thead>
-                <tbody>                
+                <tbody>
+
+                    @foreach (var _file in Model.Files)
+                    {
                     <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                    </tr>                 
+                        <td>@Html.ActionLink(_file.FileName, "DownloadFile", "Projects", new { path= _file.FileFullPath, fileName = _file.FileName }, htmlAttributes: null)</td>                       
+                        <td>@_file.FileSize</td>
+                        <td>@_file.FileType</td>
+                        <td>@_file.FileDate</td>
+                    </tr>
+                    }
+
                 </tbody>
             </table>
         </div>
@@ -90,13 +94,9 @@
             stateSave: true,
             "info": false,
             pagingType: "simple",
-
         });
         $('#FilesTable').DataTable();
-
         $('input').lc_switch();
-
-      
 
         // triggered each time a field is checked
         $(document).on('lcs-on', '.lcs_check', function () {
@@ -104,24 +104,17 @@
                 num = $(this).val();
             $($(this).closest("tr td").find('ul')).show()
             var row = $($(this).closest("tr td").find('input')[1]).val();
-            GetFolderFiles(row,$(this).closest("tr td"));
-
-      
+            GetFolderFiles(row, $(this).closest("tr td"));
         });
-
-
         // triggered each time a is unchecked
         $(document).on('lcs-off', '.lcs_check', function () {
             var subj = ($(this).attr('type') == 'radio') ? 'radio #' : 'checkbox #',
                 num = $(this).val();
             $($(this).closest("tr td").find('ul')).hide()
-
-          
         });
     });
-
     $.fn.DataTable.ext.pager.numbers_length = 0;
-    function GetFolderFiles(FolderName,td) {
+    function GetFolderFiles(FolderName, td) {
         //  alert(FolderName);
         var trimspace = "";
         $.ajax({
@@ -134,60 +127,97 @@
             success: function (result) {
 
                 //$("#content").html(result);
-                populateDataTable(result, FolderName,td);
-                //$.each(result, function (index, value) {
-                //    trimspace = value.replace(/ /g, "%20");
-                //    // alert(trimspace);
-                //    $("#content").append('<a href=/Projects/DownloadFile?fileName=' + FolderName + '\\' + trimspace + '>' + value + '</a>' + '<br>');
-                //  $('a').trigger('click');
-                //})
+                populateDataTable(result, FolderName, td);
+                $.each(result, function (index, value) {
+                    trimspace = value.replace(/ /g, "%20");
+                    alert(trimspace);
+                    $("#content").append('<a href=/Projects/DownloadFile?fileName=' + FolderName + '\\' + trimspace + '>' + value + '</a>' + '<br>');
+                    $('a').trigger('click');
+                })
             },
             error: function (resp) {
                 alert(resp);
             }
         });
     }
-    function populateDataTable(zNodes, FolderName,td) {
-        var row = $(td).closest("tr");
 
+    function populateDataTable(zNodes, FolderName, td) {
+        var row = $(td).closest("tr");
         var onj = $(row).find("ul");
         console.log("populating data table...");
         // clear the table before populating it with more data
         $("#FilesTable").DataTable().clear();
         var length = Object.keys(zNodes).length;
-        //if (length == 0) {
-        //    $('#FilesTable').dataTable().fnAddData(["", "", "", ""]);
-        //}
-        //else {
-        //    for (var i = 0; i < length; i++) {
-        //        var quote = data[i];
-        //        trimspace = quote.FileName.replace(/ /g, "%20");
-        //        // You could also use an ajax property on the data table initialization
+        if (length == 0) {
+            $('#FilesTable').dataTable().fnAddData(["", "", "", ""]);
+        }
+        else {
+            for (var i = 0; i < length; i++) {
+                var quote = data[i];
+                trimspace = quote.FileName.replace(/ /g, "%20");
+                // You could also use an ajax property on the data table initialization
 
-        //        console.log(trimspace);
+                console.log(trimspace);
 
-        //        $('#FilesTable').dataTable().fnAddData([
-        //            '<a href=/Projects/DownloadFile?fileName=' + FolderName + '\\' + trimspace + '>' + quote.FileName + '</a>' + '<br>',
-        //            quote.FileSize,
-        //            quote.FileType,
-        //            quote.FileDate
-        //        ]);
-        //    }
-        //}
+                $('#FilesTable').dataTable().fnAddData([
+                    '<a href=/Projects/DownloadFile?fileName=' + FolderName + '\\' + trimspace + '>' + quote.FileName + '</a>' + '<br>',
+                    quote.FileSize,
+                    quote.FileType,
+                    quote.FileDate
+                ]);
+            }
+        }
         var setting = {
             data: { simpleData: { enable: true } },
             callback: {
-
                 onClick: clickedevent
             }
-
         };
-
-
         $.fn.zTree.init($(onj), setting, zNodes);
     }
+
+    function populateFilesDataTable(data) {
+       
+        $("#FilesTable").DataTable().clear();      
+        for (var i = 0; i < data.length; i++) {
+                var quote = data[i];
+             //   trimspace = quote.FileName.replace(/ /g, "%20");
+                console.log(trimspace);
+                $('#FilesTable').dataTable().fnAddData([
+                    quote.FileName = data,
+                    quote.FileSize,
+                    quote.FileType,
+                    quote.FileDate
+                ]);
+            }        
+    }
+
     function clickedevent(event, treeId, treeNode, clickFlag) {
         //alert('clicked');
+    }
+
+    function LoadFolderFiles(FolderDir) {
+
+        $("#FilesTable").DataTable({
+            processing: true,
+            serverSide: true,
+            info: true,
+            ajax: {
+                url: "./GetFolderFiles",
+                data: { "FolderName": FolderDir },
+                success: function (result) {
+                    for (var i = 0; i < data.length; i++) {
+                        var quote = data[i];
+                        $('#FilesTable').dataTable().fnAddData([
+                            quote.FileName,
+                            quote.FileSize,
+                            quote.FileType,
+                            quote.FileDate
+                        ]);
+                    }
+                }
+            }
+        });
     }
 
 </script>
