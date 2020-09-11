@@ -186,9 +186,9 @@
         fullPath = "";
         GetRecursiveFilePath(treeNode);
        // alert(fullPath);
-       
+        var row = event.target.closest("tr");
         fullPath = fullPath.split("\\").reverse().join("\\");
-        fullPath = $("#hdnFolder").val() + "\\" + fullPath;
+        fullPath = $(row).find("#hdnFolder").val() + "\\" + fullPath;
         //alert(joinArray);
         LoadFolderFiles(fullPath);
     }
