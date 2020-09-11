@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -30,6 +31,8 @@ namespace DocsOnline.Models
     {
         public string FileName { get; set; }
         public string FileSizeText { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         public DateTime FileAccessed { get; set; }
         public string FileType { get; set; }
     }
