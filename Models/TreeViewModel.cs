@@ -12,6 +12,7 @@ namespace DocsOnline.Models
             name = theName;
         }
         public string name { get; set; }
+    
         public bool open { get; set; }
         public bool isParent = true;
 

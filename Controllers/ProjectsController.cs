@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
 
 namespace DocsOnline.Controllers
@@ -71,6 +72,7 @@ namespace DocsOnline.Controllers
             {
                 TreeViewModel child = GetNode(subFolder, node, FilePathRoot);
                 node.children.Add(child);
+                node.isParent = node.children.Count == 0;
             }
         }
 
@@ -95,6 +97,7 @@ namespace DocsOnline.Controllers
                 TreeViewModel child = GetNode(subFolder, node, FilepathRoot);
 
                 node.children.Add(child);
+                node.isParent = node.children.Count == 0;
             }
 
             return node;
@@ -164,7 +167,9 @@ namespace DocsOnline.Controllers
                 files.Add(fileModel);
             }
             ConstructTree(null, 1, 0, true, null, _filepath);
-            return new JsonResult { Data = node, JsonRequestBehavior = JsonRequestBehavior.AllowGet }; ;
+            var json = new JavaScriptSerializer().Serialize(node);
+            var result = new { Data = json, Files = files };
+            return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet }; ;
         }
 
         [HttpGet]
