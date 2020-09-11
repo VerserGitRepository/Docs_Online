@@ -150,25 +150,30 @@ namespace DocsOnline.Controllers
         [HttpGet]
         public ActionResult GetListOfFiles(string FolderName)
         {
-            var _filepath = System.IO.Path.Combine(Filepath, FolderName);
-            //Filepath = _filepath;
-            DirectoryInfo d = new DirectoryInfo(_filepath);
             List<FilesModel> files = new List<FilesModel>();
-            foreach (FileInfo info in d.GetFiles())
+            var _filepath = Path.Combine(Filepath, FolderName);
+            //Filepath = _filepath;
+            var d = new DirectoryInfo(_filepath);
+            if (d.Exists && d.GetFileSystemInfos().Length > 0)
             {
-                FilesModel fileModel = new FilesModel
+
+                foreach (FileInfo info in d.GetFiles())
                 {
-                    FileName = info.Name,
-                    FileDate = info.LastWriteTime,
-                    FileSize = Convert.ToInt32(info.Length),
-                    FileType = info.Extension
-                    //FileSize = d.
-                };
-                files.Add(fileModel);
-            }
+                    FilesModel fileModel = new FilesModel
+                    {
+                        FileName = info.Name,
+                        FileDate = info.LastWriteTime,
+                        FileSize = Convert.ToInt32(info.Length),
+                        FileType = info.Extension
+                        //FileSize = d.
+                    };
+                    files.Add(fileModel);
+                }
+            }          
             ConstructTree(null, 1, 0, true, null, _filepath);
             var json = new JavaScriptSerializer().Serialize(node);
             var result = new { Data = json, Files = files };
+
             return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet }; ;
         }
 
