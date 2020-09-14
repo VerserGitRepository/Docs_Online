@@ -174,7 +174,7 @@
              // trimspace = quote.FileName.replace(/ /g, "%20");
             //console.log(trimspace);
             $('#FilesTable').dataTable().fnAddData([
-                '<a href="javascript:DownloadReport(' + quote.FileName + ');" >' + quote.FileName + '</a>',
+                '<a href="javascript:DownloadFile(' +"'"+ quote.FileName +"'"+ ');" >' + quote.FileName + '</a>',
                 quote.FileSize,
                 quote.FileType,
                 quote.FileDate
@@ -226,6 +226,32 @@
 
     }
 
+    function DownloadFile(FolderDir) {
+        alert(fullPath);
+        $.ajax({
+            url: "./DownloadFile",
+            type: "GET",
+            data: { "path": fullPath, "fileName": FolderDir },
+            beforeSend: function () {
+                //  alert("testing");
+            },
+            success: function (result) {
+
+                var blob = new Blob([result], { type: 'application/text' });
+                var a = document.createElement('a');
+                var url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = 'file.txt';
+                document.body.appendChild(a);
+                a.click();
+                //window.URL.revokeObjectURL(url);
+            },
+            error: function (resp) {
+                // alert(resp);
+            }
+        });
+
+    }
 </script>
 <style>
     .container {
