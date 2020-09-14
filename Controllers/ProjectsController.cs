@@ -133,6 +133,7 @@ namespace DocsOnline.Controllers
         public FileResult DownloadFile(string path, string fileName)
         {
             var filepath = System.IO.Path.Combine(path, fileName);
+            filepath = filepath.Trim();
             byte[] filedata = System.IO.File.ReadAllBytes(filepath);
             string contentType = MimeMapping.GetMimeMapping(filepath);
 
