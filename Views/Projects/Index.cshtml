@@ -86,7 +86,7 @@
             <div class="container table-bordered" style="width:280px">
                 <h4 style="background-color: #428bca; color:white;font-size:small;font-weight:200">UPLOAD FILE TO SELECTED FOLDER</h4>
 
-                <input type="file" id="inputGroupFile01" name="filename">
+                <input type="file" id="myFile" name="filename">
                 <br>
                 <input type="submit" value="Upload" class="btn btn-primary">
             </div>
@@ -107,40 +107,6 @@
         });
         $('#FilesTable').DataTable({ "columnDefs": [{ "targets": 3, "type": "date-eu" }], "ordering": true });
 
-    });
-
-    $('#inputGroupFile01').on('change', function (event) {
-        debugger;
-        var formdata = new FormData(); //FormData object
-        var fileInput = document.getElementById('inputGroupFile01');
-        //Iterating through each files selected in fileInput
-        for (i = 0; i < fileInput.files.length; i++) {
-            //Appending each file to FormData object
-            formdata.append(fileInput.files[i].name, fileInput.files[i]);
-        }
-
-        formdata.append("Path", fullPath);
-        //Creating an XMLHttpRequest and sending
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/Projects/SaveFile');
-        xhr.send(formdata);
-        xhr.onreadystatechange = function (data) {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                $.ajax({
-
-                    type: "POST",
-                    url: './GenerateReport',
-                    contentType: "application/json; charset=utf-8",
-                    data: null,
-
-                    traditional: true,
-                    datatype: "json",
-                    success: function (returnValue) {
-                        window.open(returnValue.fileName, "_blank");
-                    }
-                });
-            }
-        }
     });
     $.fn.DataTable.ext.pager.numbers_length = 0;
     function GetFolderFiles(FolderName, td) {
@@ -239,11 +205,9 @@
                 '<a href="javascript:DownloadFile(' + "'" + quote.FileName + "'" + ');" >' + quote.FileName + '</a>',
                 quote.FileSize,
                 quote.FileType,
-                moment(quote.FileDate.format('lll')),
+                quote.FileDateString,
             ]);
         }
-        var table = $('#FilesTable').DataTable();
-        table.order([3, 'asc']).draw();
         //$.fn.dataTable.moment('DD/MM/YY');
         
         //$("#FilesTable").DataTable({ "ordering": true})
