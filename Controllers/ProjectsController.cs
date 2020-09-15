@@ -20,29 +20,65 @@ namespace DocsOnline.Controllers
 
         public ActionResult Index()
         {
-            if (!UserRoles.UserEditCompleteBookings())
+            if (UserRoles.UserCanAccessAllFiles())
             {
-                return RedirectToAction("Login", "Login");
-            }
-            var Projects = new ProjectDetailsModel();
-            Projects.Projectlist = new SelectList(DropDownHelperService.ProjectList().Result, "ID", "Value");
-            IEnumerable<string> dirList = Directory.EnumerateDirectories(Filepath);
-            Projects.Files = GetDirectoryFiles(dirList.First());
+                var Projects = new ProjectDetailsModel();
+                Projects.Projectlist = new SelectList(DropDownHelperService.ProjectList().Result, "ID", "Value");
 
-            foreach (string dir in dirList)
-            {
-                var d = new DirectoryInfo(dir);
-                var _folders = new FoldersModel
+                IEnumerable<string> dirList = Directory.EnumerateDirectories(Filepath);
+               
+                Projects.Files = GetDirectoryFiles(dirList.First());
+
+                foreach (string dir in dirList)
                 {
-                    FolderName = d.Name,
-                    FolderDirectory = dir,
-                    FolderDate = d.LastWriteTime.Date
-                };
-                Projects.FoldersList.Add(_folders);
-                Projects.FolderName.Add(d.Name);
-                Projects.FolderDate.Add(d.LastWriteTime.Date);
+                    var d = new DirectoryInfo(dir);
+                    var _folders = new FoldersModel
+                    {
+                        FolderName = d.Name,
+                        FolderDirectory = dir,
+                        FolderDate = d.LastWriteTime.Date
+                    };
+                    Projects.FoldersList.Add(_folders);
+                    Projects.FolderName.Add(d.Name);
+                    Projects.FolderDate.Add(d.LastWriteTime.Date);
+                }
+                return View(Projects);
             }
-            return View(Projects);
+            else 
+            {
+                if (Session["Username"] ==null)
+                {
+                    RedirectToAction("Login", "Login");
+                }
+                string UserId=Session["Username"].ToString();
+
+                var Projects = new ProjectDetailsModel();
+                //  Projects.Projectlist = new SelectList(DropDownHelperService.CustomersProjectList(UserId).Result, "ID", "Value");
+
+                var Projectfolders = DropDownHelperService.CustomersProjectList(UserId).Result;
+                IEnumerable<string> dirList = Directory.EnumerateDirectories(Filepath);              
+                List<string> FiltereddirList= new List<string>();
+                foreach (var item in Projectfolders)
+                {
+                    var _t = dirList.Where(a => a.Contains(item.Value)).FirstOrDefault();
+                    FiltereddirList.Add(_t);
+                } 
+                Projects.Files = GetDirectoryFiles(FiltereddirList.First());
+                foreach (string dir in FiltereddirList)
+                {
+                    var d = new DirectoryInfo(dir);
+                    var _folders = new FoldersModel
+                    {
+                        FolderName = d.Name,
+                        FolderDirectory = dir,
+                        FolderDate = d.LastWriteTime.Date
+                    };
+                    Projects.FoldersList.Add(_folders);
+                    Projects.FolderName.Add(d.Name);
+                    Projects.FolderDate.Add(d.LastWriteTime.Date);
+                }
+                return View(Projects);
+            }        
         }
         public List<FilesModel> GetDirectoryFiles(string dir)
         {
