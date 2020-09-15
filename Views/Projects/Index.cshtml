@@ -235,15 +235,17 @@
             var quote = data[i];
             // trimspace = quote.FileName.replace(/ /g, "%20");
             //console.log(trimspace);
+            var date = moment(quote.FileDate).format('lll');
             $('#FilesTable').dataTable().fnAddData([
                 '<a href="javascript:DownloadFile(' + "'" + quote.FileName + "'" + ');" >' + quote.FileName + '</a>',
                 quote.FileSize,
                 quote.FileType,
-                new Date(moment(quote.FileDate)).toLocaleDateString(),
+                
+                new Date(date).toLocaleDateString(),
             ]);
         }
         var table = $('#FilesTable').DataTable();
-        table.order([3, 'asc']).draw();
+        table.order([3, 'desc']).draw();
         //$.fn.dataTable.moment('DD/MM/YY');
         
         //$("#FilesTable").DataTable({ "ordering": true})
