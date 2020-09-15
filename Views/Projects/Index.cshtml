@@ -23,7 +23,7 @@
 
 
     <div class="row">
-        <div class="col-md-4 pull-left">
+        <div class="col-md-3 pull-left">
             <table id="FolderTable" class="table pull-left" data-page-length="13" style="margin-right:0px;border:solid;  font-size:16px; border-width:thin; border-color:lightgray">
                 <thead style="background-color: #428bca; color:white">
                     <tr>
@@ -79,6 +79,19 @@
 
                 </tbody>
             </table>
+        </div>
+        <div class="col-md-2 pull-left">
+           <div class="container table-bordered" style=width:200%>
+            <h3 style="background-color: #428bca; color:white">
+                Upload
+            </h3>
+                   
+                <form action="/action_page.php">
+                    <input type="file" id="myFile" name="filename">
+                    <br>
+                    <input type="submit">
+                </form>
+            
         </div>
         <div id="jstree_demo"></div>
     </div>
