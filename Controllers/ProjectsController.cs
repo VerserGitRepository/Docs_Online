@@ -26,7 +26,7 @@ namespace DocsOnline.Controllers
                 Projects.Projectlist = new SelectList(DropDownHelperService.ProjectList().Result, "ID", "Value");
 
                 IEnumerable<string> dirList = Directory.EnumerateDirectories(Filepath);
-               
+
                 Projects.Files = GetDirectoryFiles(dirList.First());
 
                 foreach (string dir in dirList)
@@ -44,25 +44,25 @@ namespace DocsOnline.Controllers
                 }
                 return View(Projects);
             }
-            else 
+            else
             {
-                if (Session["Username"] ==null)
+                if (Session["Username"] == null)
                 {
                     RedirectToAction("Login", "Login");
                 }
-                string UserId=Session["Username"].ToString();
+                string UserId = Session["Username"].ToString();
 
                 var Projects = new ProjectDetailsModel();
                 //  Projects.Projectlist = new SelectList(DropDownHelperService.CustomersProjectList(UserId).Result, "ID", "Value");
 
                 var Projectfolders = DropDownHelperService.CustomersProjectList(UserId).Result;
-                IEnumerable<string> dirList = Directory.EnumerateDirectories(Filepath);              
-                List<string> FiltereddirList= new List<string>();
+                IEnumerable<string> dirList = Directory.EnumerateDirectories(Filepath);
+                List<string> FiltereddirList = new List<string>();
                 foreach (var item in Projectfolders)
                 {
                     var _t = dirList.Where(a => a.Contains(item.Value)).FirstOrDefault();
                     FiltereddirList.Add(_t);
-                } 
+                }
                 Projects.Files = GetDirectoryFiles(FiltereddirList.First());
                 foreach (string dir in FiltereddirList)
                 {
@@ -78,7 +78,7 @@ namespace DocsOnline.Controllers
                     Projects.FolderDate.Add(d.LastWriteTime.Date);
                 }
                 return View(Projects);
-            }        
+            }
         }
         public List<FilesModel> GetDirectoryFiles(string dir)
         {
@@ -189,7 +189,7 @@ namespace DocsOnline.Controllers
         public FileResult DownloadFile(string path, string fileName)
         {
             var filepath = System.IO.Path.Combine(path, fileName);
-            filepath = filepath.Trim();   
+            filepath = filepath.Trim();
 
             return File(filepath, MimeMapping.GetMimeMapping(filepath), fileName);
         }
@@ -198,7 +198,7 @@ namespace DocsOnline.Controllers
         public ActionResult GetListOfFiles(string FolderName)
         {
             List<FilesModel> files = new List<FilesModel>();
-            var _filepath = Path.Combine(Filepath, FolderName);          
+            var _filepath = Path.Combine(Filepath, FolderName);
             var d = new DirectoryInfo(_filepath);
             if (d.Exists && d.GetFileSystemInfos().Length > 0)
             {
@@ -209,50 +209,42 @@ namespace DocsOnline.Controllers
                     {
                         FileName = info.Name,
                         FileDate = info.CreationTime.Date,
-                        FileDateString = info.CreationTime.Date.ToShortDateString()+" "+ info.CreationTime.ToLongTimeString(),
+                        FileDateString = info.CreationTime.Date.ToShortDateString() + " " + info.CreationTime.ToLongTimeString(),
                         FileSize = Convert.ToInt32(info.Length),
-                        FileType = info.Extension                       
+                        FileType = info.Extension
                     };
                     files.Add(fileModel);
                 }
-            }          
+            }
+            files = files.OrderBy(f => f.FileDate.Year).ThenBy(f => f.FileDate.Month).ThenBy(f => f.FileDate.Day).ToList();
             ConstructTree(null, 1, 0, true, null, _filepath);
             var json = new JavaScriptSerializer().Serialize(node);
-            var result = new { Data = json, Files = files.OrderByDescending(f=>f.FileDate.Year).ThenByDescending(m=>m.FileDate.Month).ThenByDescending(s=>s.FileDate.Day).ToList() };
+            var result = new { Data = json, Files = files };
 
-            return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet }; 
+            return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        //[HttpGet]
-        //public ActionResult GetFolderFiles(string FolderName)
-        //{
-        //    // List<string> files = GetAllFiles(@"\"+FolderName);                    
-        //  var files =  GetDirectoryFiles(@"\" + FolderName);
-        //    return new JsonResult { Data = files, JsonRequestBehavior = JsonRequestBehavior.AllowGet };   
-        //}
+        [HttpPost]
+        public JsonResult SaveFile()
+        {
+            var fileType = Request.Form["FileUpload"];
 
-        //public List<string> GetAllFiles(string sDirt)
-        //{
-        //    List<string> files = new List<string>();
-        //    try
-        //    {
-        //        foreach (string file in Directory.GetFiles(sDirt))
-        //        {
-                    
-        //            files.Add(file);
-        //        }
+            string fileName = "";
 
-        //        foreach (string fl in Directory.GetDirectories(sDirt))
-        //        {
-        //            files.AddRange(GetAllFiles(fl));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //    }
-        //    return files;
-        //}
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                HttpPostedFileBase file = Request.Files[i]; //Uploaded file
+                                                            //Use the following properties to get file's name, size and MIMEType
+                int fileSize = file.ContentLength;
+                fileName = Request.Files[i].FileName;
+                string mimeType = file.ContentType;
 
+                file.SaveAs(Server.MapPath(".") + "//UploadFile//SSNList.xls");
+            }
+
+
+
+            return Json(null);
+        }
     }
 }
