@@ -18,7 +18,22 @@ namespace DocsOnline.ServiceHelpers
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(CostModelAPIURL);
-                HttpResponseMessage response = client.GetAsync(string.Format("TechProjects/listitems")).Result;
+                HttpResponseMessage response = client.GetAsync(string.Format("inventorycontrol/TechProjects/listitems")).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    returnmodel = await response.Content.ReadAsAsync<List<ListItems>>();
+                }
+            }
+            return returnmodel;
+        }
+
+        public static async Task<List<ListItems>> CustomersProjectList(string UserId)
+        {
+            List<ListItems> returnmodel = new List<ListItems>();
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(CostModelAPIURL);
+                HttpResponseMessage response = client.GetAsync(string.Format("DocsOnline/{0}/UserProjects", UserId)).Result;
                 if (response.IsSuccessStatusCode)
                 {
                     returnmodel = await response.Content.ReadAsAsync<List<ListItems>>();

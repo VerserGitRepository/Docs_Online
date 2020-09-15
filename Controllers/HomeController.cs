@@ -15,7 +15,7 @@ namespace DocsOnline.Controllers
     {
         public ActionResult Index()
         {
-            if (!UserRoles.UserEditCompleteBookings())
+            if (!UserRoles.UserCanAccessAllFiles())
             {
                 return RedirectToAction("Login", "Login");
             }
@@ -125,6 +125,15 @@ namespace DocsOnline.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+            return View();
+        }
+
+        public ActionResult ManageAccess()
+        {
+            if (!UserRoles.UserCanAccessAllFiles())
+            {
+                return RedirectToAction("Index", "Projects");
+            }
             return View();
         }
     }
