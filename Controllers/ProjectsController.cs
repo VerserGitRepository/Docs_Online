@@ -44,6 +44,25 @@ namespace DocsOnline.Controllers
             }
             return View(Projects);
         }
+        public List<FilesModel> GetDirectoryFiles(string dir)
+        {
+            var d = new DirectoryInfo(dir);
+            var files = new List<FilesModel>();
+
+            foreach (FileInfo info in d.GetFiles())
+            {
+                var fileModel = new FilesModel
+                {
+                    FileName = info.Name,
+                    FileDate = info.LastWriteTime,
+                    FileSize = Convert.ToInt32(info.Length),
+                    FileType = info.Extension,
+                    FileFullPath = info.DirectoryName
+                };
+                files.Add(fileModel);
+            }
+            return files;
+        }
         private void ConstructTree(DirectoryInfo[] dirList, int id, int pId, bool isParent, TreeViewModel parent, string FilePathRoot)
         {
             if (dirList == null)
@@ -133,27 +152,16 @@ namespace DocsOnline.Controllers
         public FileResult DownloadFile(string path, string fileName)
         {
             var filepath = System.IO.Path.Combine(path, fileName);
-            filepath = filepath.Trim();
-            byte[] filedata = System.IO.File.ReadAllBytes(filepath);
-            string contentType = MimeMapping.GetMimeMapping(filepath);
+            filepath = filepath.Trim();   
 
-            var cd = new System.Net.Mime.ContentDisposition
-            {
-                FileName = filepath,
-                Inline = true,
-            };
-            Response.AppendHeader("Content-Disposition", cd.ToString());
-            return File(filedata, contentType, MimeMapping.GetMimeMapping(filepath));
-
-            //return File(filepath, MimeMapping.GetMimeMapping(filepath), fileName);
+            return File(filepath, MimeMapping.GetMimeMapping(filepath), fileName);
         }
 
         [HttpGet]
         public ActionResult GetListOfFiles(string FolderName)
         {
             List<FilesModel> files = new List<FilesModel>();
-            var _filepath = Path.Combine(Filepath, FolderName);
-            //Filepath = _filepath;
+            var _filepath = Path.Combine(Filepath, FolderName);          
             var d = new DirectoryInfo(_filepath);
             if (d.Exists && d.GetFileSystemInfos().Length > 0)
             {
@@ -163,70 +171,50 @@ namespace DocsOnline.Controllers
                     FilesModel fileModel = new FilesModel
                     {
                         FileName = info.Name,
-                        FileDate = info.LastWriteTime,
+                        FileDate = info.CreationTime.Date,
                         FileSize = Convert.ToInt32(info.Length),
-                        FileType = info.Extension
-                        //FileSize = d.
+                        FileType = info.Extension                       
                     };
                     files.Add(fileModel);
                 }
             }          
             ConstructTree(null, 1, 0, true, null, _filepath);
             var json = new JavaScriptSerializer().Serialize(node);
-            var result = new { Data = json, Files = files };
+            var result = new { Data = json, Files = files.OrderByDescending(f=>f.FileDate.Year).ThenByDescending(m=>m.FileDate.Month).ThenByDescending(s=>s.FileDate.Day).ToList() };
 
-            return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet }; ;
+            return new JsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet }; 
         }
 
-        [HttpGet]
-        public ActionResult GetFolderFiles(string FolderName)
-        {
-            // List<string> files = GetAllFiles(@"\"+FolderName);                    
-          var files =  GetDirectoryFiles(@"\" + FolderName);
-            return new JsonResult { Data = files, JsonRequestBehavior = JsonRequestBehavior.AllowGet };   
-        }
+        //[HttpGet]
+        //public ActionResult GetFolderFiles(string FolderName)
+        //{
+        //    // List<string> files = GetAllFiles(@"\"+FolderName);                    
+        //  var files =  GetDirectoryFiles(@"\" + FolderName);
+        //    return new JsonResult { Data = files, JsonRequestBehavior = JsonRequestBehavior.AllowGet };   
+        //}
 
-        public List<string> GetAllFiles(string sDirt)
-        {
-            List<string> files = new List<string>();
-            try
-            {
-                foreach (string file in Directory.GetFiles(sDirt))
-                {
+        //public List<string> GetAllFiles(string sDirt)
+        //{
+        //    List<string> files = new List<string>();
+        //    try
+        //    {
+        //        foreach (string file in Directory.GetFiles(sDirt))
+        //        {
                     
-                    files.Add(file);
-                }
+        //            files.Add(file);
+        //        }
 
-                foreach (string fl in Directory.GetDirectories(sDirt))
-                {
-                    files.AddRange(GetAllFiles(fl));
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return files;
-        }
+        //        foreach (string fl in Directory.GetDirectories(sDirt))
+        //        {
+        //            files.AddRange(GetAllFiles(fl));
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
+        //    return files;
+        //}
 
-        public List<FilesModel> GetDirectoryFiles(string dir)
-        {
-            var d = new DirectoryInfo(dir);
-            var files = new List<FilesModel>();
-
-            foreach (FileInfo info in d.GetFiles())
-            {
-                var fileModel = new FilesModel
-                {
-                    FileName = info.Name,
-                    FileDate = info.LastWriteTime,
-                    FileSize = Convert.ToInt32(info.Length),
-                    FileType = info.Extension,
-                    FileFullPath=info.DirectoryName                    
-                };
-                files.Add(fileModel);
-            }
-            return files;
-        }
     }
 }
