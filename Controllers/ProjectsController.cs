@@ -91,6 +91,7 @@ namespace DocsOnline.Controllers
                 {
                     FileName = info.Name,
                     FileDate = info.LastWriteTime,
+                    FileDateString = info.LastWriteTime.ToShortTimeString(),
                     FileSize = Convert.ToInt32(info.Length),
                     FileType = info.Extension,
                     FileFullPath = info.DirectoryName
@@ -208,6 +209,7 @@ namespace DocsOnline.Controllers
                     {
                         FileName = info.Name,
                         FileDate = info.CreationTime.Date,
+                        FileDateString = info.CreationTime.Date.ToShortDateString()+" "+ info.CreationTime.ToLongTimeString(),
                         FileSize = Convert.ToInt32(info.Length),
                         FileType = info.Extension                       
                     };

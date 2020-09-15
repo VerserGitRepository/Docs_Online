@@ -12,6 +12,7 @@ namespace DocsOnline.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         public DateTime FileDate { get; set; }
+        public string FileDateString { get; set; }
         public string FileType { get; set; }
         public int FileSize { get; set; }
         public string FileFullPath { get; set; }

@@ -205,7 +205,7 @@
                 '<a href="javascript:DownloadFile(' + "'" + quote.FileName + "'" + ');" >' + quote.FileName + '</a>',
                 quote.FileSize,
                 quote.FileType,
-                new Date(moment(quote.FileDate)).toLocaleDateString(),
+                quote.FileDateString,
             ]);
         }
         //$.fn.dataTable.moment('DD/MM/YY');
