@@ -239,7 +239,7 @@
                 '<a href="javascript:DownloadFile(' + "'" + quote.FileName + "'" + ');" >' + quote.FileName + '</a>',
                 quote.FileSize,
                 quote.FileType,
-                moment(quote.FileDate.format('lll')),
+                new Date(moment(quote.FileDate)).toLocaleDateString(),
             ]);
         }
         var table = $('#FilesTable').DataTable();
