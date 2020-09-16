@@ -125,16 +125,17 @@
         xhr.send(formdata);
         xhr.onreadystatechange = function (data) {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                
-                //$.alert({
-                //    boxWidth: '50px',
-                //    useBootstrap: false,
-                //    title: '',
-                //    content: data,
-                //    buttons: {
-                //        yes: { isHidden: true }
-                //    }
-                //})
+               
+                $.alert({
+                    boxWidth: '500px',
+                    useBootstrap: false,
+                    title: '',
+                    content: xhr.responseText,
+                    closeIcon: true,
+                    buttons: {
+                        yes: { isHidden: true }
+                    }
+                })
                    
             }
         }
@@ -237,8 +238,7 @@
                 '<a href="javascript:DownloadFile(' + "'" + quote.FileName + "'" + ');" >' + quote.FileName + '</a>',
                 quote.FileSize,
                 quote.FileType,
-                
-                new Date(date),
+                date,
             ]);
         }
         var table = $('#FilesTable').DataTable();

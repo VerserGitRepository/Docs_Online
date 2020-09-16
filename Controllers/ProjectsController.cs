@@ -250,7 +250,7 @@ namespace DocsOnline.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                return Json(new { Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
 
         }
