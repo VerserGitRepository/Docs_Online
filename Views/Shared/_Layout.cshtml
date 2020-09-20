@@ -1,11 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
+@using DocsOnline.ServiceHelpers
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verser Docs Online</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
 </head>
 <body>
 
@@ -22,21 +24,24 @@
                 {
                     <li style="padding-left:50px"> @Html.ActionLink("Docs Online", "Index", "Projects", new { area = "" }, new { @class = "navbar-brand" })</li>
 
-                    <li>@Html.ActionLink("MANAGE USER ACCESS", "ManageAccess", "Home")</li>
+                    if (UserRoles.UserCanAccessAllFiles())
+                    {
+                        <li>@Html.ActionLink("MANAGE USER ACCESS", "ManageAccess", "Home")</li>
+                    }
                 }
 
             </ul>
             <ul class="nav navbar-nav" style="float:right">
                 @if (@Session["Username"] != null)
                 {
-                  
+
                     <li style="color:orange; font-size:small;color:white;font-weight:100;float:right">@Html.ActionLink("Logout", "Login", "Login")</li>
-                    }
-                    else
-                    {
+                }
+                else
+                {
                     <li style="font-size:small;color:white;font-weight:100;float:right">@Html.ActionLink("Login", "Login", "Login")</li>
-                    }
-                </ul>
+                }
+            </ul>
 
         </div>
     </nav>

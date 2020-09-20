@@ -83,12 +83,10 @@
             </table>
         </div>
         <div class="col-md-1 pull-left">
-            <div class="container table-bordered" style="width:280px">
-                <h4 style="background-color: #428bca; color:white;font-size:small;font-weight:200">UPLOAD FILE TO SELECTED FOLDER</h4>
+            <div class="container table-bordered" style="width:290px"><br />
+                <p style="background-color:#428bca; color:white;font-size:small;text-align:justify;vertical-align:central;font-weight:300;height:25px;">UPLOAD FILE TO SELECTED FOLDER</p>            
 
-                <input type="file" id="inputGroupFile01" name="filename">
-                <br>
-                <input type="submit" value="Upload" class="btn btn-primary">
+                <input type="file" id="inputGroupFile01" name="filename">              
             </div>
         </div>
     </div> 
@@ -109,7 +107,7 @@
 
     });
     $('#inputGroupFile01').on('change', function (event) {
-        debugger;
+       // debugger;
         var formdata = new FormData(); //FormData object
         var fileInput = document.getElementById('inputGroupFile01');
         //Iterating through each files selected in fileInput
@@ -117,14 +115,14 @@
             //Appending each file to FormData object
             formdata.append(fileInput.files[i].name, fileInput.files[i]);
         }
-
         formdata.append("Path", savefilepath);
         //Creating an XMLHttpRequest and sending
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/Projects/SaveFile');
+        xhr.open('POST', './SaveFile');
         xhr.send(formdata);
         xhr.onreadystatechange = function (data) {
             if (xhr.readyState == 4 && xhr.status == 200) {
+<<<<<<< Updated upstream
                
                 $.alert({
                     boxWidth: '500px',
@@ -136,6 +134,19 @@
                         yes: { isHidden: true }
                     }
                 })
+=======
+
+                alert("File Uploaded Successfully !")
+                //$.alert({
+                //    boxWidth: '50px',
+                //    useBootstrap: false,
+                //    title: '',
+                //    content: data,
+                //    buttons: {
+                //        yes: { isHidden: true }
+                //    }
+                //})
+>>>>>>> Stashed changes
                    
             }
         }
@@ -237,8 +248,13 @@
             $('#FilesTable').dataTable().fnAddData([
                 '<a href="javascript:DownloadFile(' + "'" + quote.FileName + "'" + ');" >' + quote.FileName + '</a>',
                 quote.FileSize,
+<<<<<<< Updated upstream
                 quote.FileType,
                 date,
+=======
+                quote.FileType,                
+                new Date(date),
+>>>>>>> Stashed changes
             ]);
         }
         var table = $('#FilesTable').DataTable();
