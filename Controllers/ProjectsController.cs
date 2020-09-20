@@ -27,7 +27,7 @@ namespace DocsOnline.Controllers
 
                 IEnumerable<string> dirList = Directory.EnumerateDirectories(Filepath);
 
-                Projects.Files = GetDirectoryFiles(dirList.First());
+               // Projects.Files = GetDirectoryFiles(dirList.First());
 
                 foreach (string dir in dirList)
                 {
@@ -56,11 +56,16 @@ namespace DocsOnline.Controllers
                 //  Projects.Projectlist = new SelectList(DropDownHelperService.CustomersProjectList(UserId).Result, "ID", "Value");
 
                 var Projectfolders = DropDownHelperService.CustomersProjectList(UserId).Result;
+              
                 IEnumerable<string> dirList = Directory.EnumerateDirectories(Filepath);
                 List<string> FiltereddirList = new List<string>();
                 foreach (var item in Projectfolders)
                 {
-                    var _t = dirList.Where(a => a.Contains(item.Value)).FirstOrDefault();
+                    if (item.Value == "SSICT Canberra")
+                    {
+                        item.Value = "Shared Services ICT";
+                    }
+                    var _t = dirList.Where(a => a.Contains(item.Value)).FirstOrDefault();                   
                     FiltereddirList.Add(_t);
                 }
                 Projects.Files = GetDirectoryFiles(FiltereddirList.First());
