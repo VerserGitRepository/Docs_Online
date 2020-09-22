@@ -86,7 +86,7 @@
             <div class="container table-bordered" style="width:290px"><br />
                 <p style="background-color:#428bca; color:white;font-size:small;text-align:justify;vertical-align:central;font-weight:300;height:25px;">UPLOAD FILE TO SELECTED FOLDER</p>            
 
-                <input type="file" id="inputGroupFile01" name="filename" multiple>              
+                <input type="file" id="inputGroupFile01" name="filename">              
             </div>
         </div>
     </div> 
@@ -122,19 +122,17 @@
         xhr.send(formdata);
         xhr.onreadystatechange = function (data) {
             if (xhr.readyState == 4 && xhr.status == 200) {
-<<<<<<< Updated upstream
                
-                $.alert({
-                    boxWidth: '500px',
-                    useBootstrap: false,
-                    title: '',
-                    content: xhr.responseText,
-                    closeIcon: true,
-                    buttons: {
-                        yes: { isHidden: true }
-                    }
-                })
-=======
+                //$.alert({
+                //    boxWidth: '500px',
+                //    useBootstrap: false,
+                //    title: '',
+                //    content: xhr.responseText,
+                //    closeIcon: true,
+                //    buttons: {
+                //        yes: { isHidden: true }
+                //    }
+                //})
 
                 alert("File Uploaded Successfully !")
                 //$.alert({
@@ -146,7 +144,6 @@
                 //        yes: { isHidden: true }
                 //    }
                 //})
->>>>>>> Stashed changes
                    
             }
         }
@@ -248,13 +245,9 @@
             $('#FilesTable').dataTable().fnAddData([
                 '<a href="javascript:DownloadFile(' + "'" + quote.FileName + "'" + ');" >' + quote.FileName + '</a>',
                 quote.FileSize,
-<<<<<<< Updated upstream
                 quote.FileType,
                 date,
-=======
-                quote.FileType,                
-                new Date(date),
->>>>>>> Stashed changes
+                
             ]);
         }
         var table = $('#FilesTable').DataTable();
