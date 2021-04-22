@@ -40,7 +40,7 @@
                         <tr>
                             <td>
                                 <input type="hidden" value="@item.FolderDirectory" id="hdnFolder" />
-                                <a> <span class="glyphicon glyphicon-folder-close" style="padding-right:5px;" onclick="GetFolderFiles('@item.FolderName',this)" />&nbsp; @item.FolderName</a>
+                                <a> <span class="glyphicon glyphicon-folder-close" style="" onclick="GetFolderFiles('@item.FolderName',this)" />&nbsp; @item.FolderName</a>
                                 <ul id="@item.FolderName.Replace(" ","")" class="ztree" />
                             </td>
                         </tr>
@@ -83,11 +83,10 @@
             </table>
         </div>
         <div class="col-md-2 pull-left" style="font-size:13px;padding-left:15px; padding-right:15px;">
-
+            <div class="col-md-12" style=" border: 1px solid lightgrey;">
                 <h6 style="text-align:center;vertical-align:central;font-weight:600; padding:5px; background-color:orange">UPLOAD FILE TO SELECTED FOLDER</h6>            
-
-                <input type="file" id="inputGroupFile01" name="filename">              
-
+                <input type="file" id="inputGroupFile01" name="filename" style="margin-bottom:10px">
+            </div>
         </div>
     </div> 
 
@@ -345,5 +344,19 @@
         float: left;
         text-align: right;
         padding-top: 0.25em
+    }
+
+    .glyphicon {
+        font-size: 23px;
+    }
+
+    #FolderTable_previous {
+        padding:0 !important;
+        border:none;
+    }
+
+    #FolderTable_next {
+        padding: 0 !important;
+        border: none;
     }
 </style>

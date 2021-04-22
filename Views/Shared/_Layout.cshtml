@@ -36,14 +36,12 @@
         <ul class="nav navbar-nav" style="float:right">
             @if (@Session["Username"] != null)
             {
-
-                @*<li style="color:orange; font-size:small;color:white;font-weight:500;float:right">@Html.ActionLink("Logout", "Login", "Login")</li>*@
                 <li><a href="@Url.Action("Login", "Login")" style="color:white">Logout</a></li>
             }
             @*else
-            {
-                <li style="font-size:small;color:white;font-weight:500;float:right">@Html.ActionLink("Login", "Login", "Login")</li>
-            }*@
+        {
+            <li style="font-size:small;color:white;font-weight:500;float:right">@Html.ActionLink("Login", "Login", "Login")</li>
+        }*@
         </ul>
     </nav>
     <div class="container-fluid">
