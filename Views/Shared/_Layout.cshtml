@@ -11,43 +11,44 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-
-            <div class="navbar-header">
-                <img class="navbar-header" src="~/Images/VerserLogo.png" style=" height:50px; width:90px;" />
-                <a class="navbar-brand" style="padding-left:50px;color:white" href="#">Verser Technology LifeCycles</a>
-            </div>
-            <ul class="nav navbar-nav">
-
-                @if (@Session["Username"] != null)
-                {
-                    <li style="padding-left:50px"> @Html.ActionLink("Docs Online", "Index", "Projects", new { area = "" }, new { @class = "navbar-brand" })</li>
-
-                    if (UserRoles.UserCanAccessAllFiles())
-                    {
-                        <li>@Html.ActionLink("MANAGE USER ACCESS", "ManageAccess", "Home")</li>
-                    }
-                }
-
-            </ul>
-            <ul class="nav navbar-nav" style="float:right">
-                @if (@Session["Username"] != null)
-                {
-
-                    <li style="color:orange; font-size:small;color:white;font-weight:100;float:right">@Html.ActionLink("Logout", "Login", "Login")</li>
-                }
-                else
-                {
-                    <li style="font-size:small;color:white;font-weight:100;float:right">@Html.ActionLink("Login", "Login", "Login")</li>
-                }
-            </ul>
-
+    <nav class="navbar navbar-default navbar-fixed-top" style="background-color:black; padding:0 10px; height:50px; border:none">
+        <div class="navbar-header" align="center" style="height:50px;vertical-align:middle">
+            <a href="@Url.Action("Index", "Projects")">
+                <img class="navbar-header" src="~/Images/Verser.jpg" style="height:50px; width:140px;" />
+            </a>
+            <a class="navbar-brand" style="color:white; font-weight:600" href="@Url.Action("Index", "Projects")">Verser Technology LifeCycles</a>
         </div>
+        <ul class="nav navbar-nav">
+
+            @if (@Session["Username"] != null)
+            {
+                @*<li style="padding-left:20px"> @Html.ActionLink("Docs Online", "Index", "Projects", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })</li>*@
+                <li><a href="@Url.Action("Index", "Projects")" style="color:white">Docs Online</a></li>
+
+                if (UserRoles.UserCanAccessAllFiles())
+                {
+                    @*<li>@Html.ActionLink("MANAGE USER ACCESS", "ManageAccess", "Home")</li>*@
+                    <li><a href="@Url.Action("ManageAccess", "Home")" style="color:white">MANAGE USER ACCESS</a></li>
+                }
+            }
+
+        </ul>
+        <ul class="nav navbar-nav" style="float:right">
+            @if (@Session["Username"] != null)
+            {
+
+                @*<li style="color:orange; font-size:small;color:white;font-weight:500;float:right">@Html.ActionLink("Logout", "Login", "Login")</li>*@
+                <li><a href="@Url.Action("Login", "Login")" style="color:white">Logout</a></li>
+            }
+            @*else
+            {
+                <li style="font-size:small;color:white;font-weight:500;float:right">@Html.ActionLink("Login", "Login", "Login")</li>
+            }*@
+        </ul>
     </nav>
-    <div class="container body-content">
+    <div class="container-fluid">
         @RenderBody()
-        <hr width="140%" />
+        <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Verser Technology Lifecycles</p>
         </footer>
@@ -58,9 +59,20 @@
     @RenderSection("scripts", required: false)
     <style>
         .navbar {
-            background-color: lightgray;
+            background-color: #000000;
             border-color: orange;
         }
+
+        .navbar-nav > li > a {
+            color: white;
+            font-family: sans-serif;
+            font-weight: 600;
+        }
+
+            .navbar-nav > li > a:hover {
+                background-color: darkorange !important;
+                color: black;
+            }
     </style>
 </body>
 </html>
