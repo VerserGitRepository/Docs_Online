@@ -33,45 +33,68 @@
             }
 
         </ul>
-        <ul class="nav navbar-nav" style="float:right">
-            @if (@Session["Username"] != null)
-            {
-                <li><a href="@Url.Action("Login", "Login")" style="color:white">Logout</a></li>
-            }
-            @*else
-        {
-            <li style="font-size:small;color:white;font-weight:500;float:right">@Html.ActionLink("Login", "Login", "Login")</li>
-        }*@
-        </ul>
+
+        <div class="navbar-collapse collapse pull-right">
+            <ul class="nav navbar-nav navbar-right">
+                @if (@Session["Username"] != null)
+                {
+                    <li class="dropdown" id="dropmenu" style="overflow:visible">
+                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" style="color:white; font-weight:600">@Session["Username"].ToString()</a>
+                        <ul class="dropdown-menu" style="right: 0; background-color:black !important">
+                            <li id="logout"><a href="@Url.Action("Login", "Login")" style="color:white; font-weight:600;padding:5px">Logout</a></li>
+                        </ul>
+                    </li>
+                }
+                @*else
+                    {
+                        <li style="font-size:small;color:white;font-weight:500;float:right">@Html.ActionLink("Login", "Login", "Login")</li>
+                    }*@
+            </ul>
+        </div>
+
     </nav>
+
     <div class="container-fluid">
         @RenderBody()
-        <hr />
+        @*<hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Verser Technology Lifecycles</p>
-        </footer>
+        </footer>*@
     </div>
 
     @Scripts.Render("~/bundles/bootstrap")
 
     @RenderSection("scripts", required: false)
-    <style>
-        .navbar {
-            background-color: #000000;
-            border-color: orange;
-        }
-
-        .navbar-nav > li > a {
-            color: white;
-            font-family: sans-serif;
-            font-weight: 600;
-        }
-
-            .navbar-nav > li > a:hover {
-                background-color: darkorange !important;
-                color: black;
-            }
-    </style>
 </body>
 </html>
+
+<style>
+    .navbar {
+        background-color: #000000;
+        border-color: orange;
+    }
+
+    .navbar-nav > li > a {
+        color: white;
+        font-family: sans-serif;
+        font-weight: 600;
+    }
+
+        .navbar-nav > li > a:hover {
+            background-color: darkorange !important;
+            color: black;
+        }
+
+    #logout {
+        background-color:black;
+    }
+
+        #logout :hover {
+            background-color: orange;
+        }
+</style>
+
+<script>
+    $('.dropdown-toggle').dropdown()
+</script>
 
